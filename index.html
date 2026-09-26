@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>777 Multi Slot - Master Production Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>777 Multi Slot - Master Edition</title>
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
@@ -19,24 +19,25 @@
       --text-gray: #8ba39a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-x: hidden; }
+    html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow: hidden; }
     
     .slot-wrapper {
-      width: 100%; height: 100vh; max-height: 100vh;
+      width: 100%; height: 100vh;
       background: radial-gradient(circle at center, #0a3324 0%, #03140e 100%);
-      display: flex; flex-direction: column; position: relative; margin: 0 auto; overflow: hidden;
+      display: flex; flex-direction: column; position: relative; margin: 0 auto; max-width: 480px;
     }
 
-    /* 1. In-Game Sub-Header */
+    /* 1. Header */
     .game-sub-nav {
       display: flex; justify-content: space-between; align-items: center;
       padding: 8px 12px 4px; z-index: 10; flex-shrink: 0;
     }
+    .slot-title { font-size: 17px; font-weight: 900; color: var(--gold-text); font-style: italic; }
+    .slot-title span { color: #fff; }
     .circle-icon-btn {
       width: 32px; height: 32px; border-radius: 50%; background: #0b2e21; border: 1px solid #1b543d;
       display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff;
     }
-    .circle-icon-btn:hover { background: #134e38; }
 
     .lines-title-row {
       display: flex; justify-content: space-between; align-items: center; padding: 2px 14px 4px;
@@ -45,16 +46,16 @@
 
     /* 2. Main Slot Machine Arena */
     .slot-machine-arena {
-      padding: 0 8px; display: flex; gap: 6px; justify-content: center; position: relative; flex-shrink: 0;
+      padding: 0 10px; display: flex; gap: 8px; justify-content: center; position: relative; flex-shrink: 0;
     }
 
     /* Multiplier Column (Left) */
     .multiplier-col {
-      display: flex; flex-direction: column; justify-content: space-around; width: 66px; height: 220px;
-      background: rgba(3, 20, 14, 0.75); border: 2px solid var(--gold-dark); border-radius: 6px; padding: 4px 0;
+      display: flex; flex-direction: column; justify-content: space-around; width: 64px; height: 215px;
+      background: rgba(3, 20, 14, 0.75); border: 2px solid var(--gold-dark); border-radius: 8px; padding: 4px 0;
     }
     .mult-box {
-      flex: 1; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900;
+      flex: 1; display: flex; align-items: center; justify-content: center; font-size: 19px; font-weight: 900;
       color: #72a38b; margin: 2px 4px; border-radius: 4px; transition: 0.3s;
     }
     .mult-box.active-5x {
@@ -69,8 +70,8 @@
 
     /* 3x3 Reels Frame */
     .reels-grid-frame {
-      flex: 1; height: 220px; background: rgba(3, 20, 14, 0.85); border: 2px solid var(--gold-dark);
-      border-radius: 6px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px;
+      flex: 1; height: 215px; background: rgba(3, 20, 14, 0.85); border: 2px solid var(--gold-dark);
+      border-radius: 8px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px;
       position: relative; overflow: hidden;
     }
     .reel-strip-col {
@@ -79,12 +80,12 @@
     .reel-strip-col:last-child { border-right: none; }
     
     .symbol-cell {
-      height: 68px; display: flex; align-items: center; justify-content: center; font-size: 36px;
+      height: 66px; display: flex; align-items: center; justify-content: center; font-size: 34px;
       position: relative; user-select: none; transition: transform 0.15s;
     }
     .symbol-cell.winning { animation: winPulse 0.5s infinite alternate; }
 
-    /* Winning Payline Indicator Bar */
+    /* Winning Payline Glow */
     .payline-glow {
       position: absolute; left: 0; right: 0; height: 4px; background: #ffeb3b;
       box-shadow: 0 0 14px #ffeb3b, 0 0 6px #fff; z-index: 8; display: none;
@@ -92,8 +93,8 @@
 
     /* 3. Middle Status Ribbon */
     .status-ribbon-bar {
-      margin: 6px 8px; background: #031710; border: 1.5px solid var(--gold-dark);
-      border-radius: 20px; display: flex; justify-content: space-around; align-items: center; padding: 5px 8px; flex-shrink: 0;
+      margin: 6px 10px; background: #031710; border: 1.5px solid var(--gold-dark);
+      border-radius: 20px; display: flex; justify-content: space-around; align-items: center; padding: 6px 10px; flex-shrink: 0;
     }
     .status-item { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 900; color: #fff; }
     .status-item span { color: var(--gold-text); }
@@ -103,9 +104,9 @@
       display: flex; justify-content: center; gap: 14px; margin: 4px 0; flex-shrink: 0;
     }
     .hex-btn {
-      width: 60px; height: 56px; background: #0a3324; border: 2px solid var(--gold-dark);
+      width: 58px; height: 52px; background: #0a3324; border: 2px solid var(--gold-dark);
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900;
       color: var(--gold-text); cursor: pointer; transition: 0.15s;
     }
     .hex-btn:active { transform: scale(0.92); background: #13523a; }
@@ -113,7 +114,7 @@
 
     /* 5. Bottom Emerald & Ruby Spin Console */
     .spin-console-wrapper {
-      margin-top: auto; padding: 6px 10px 14px; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0;
+      margin-top: auto; padding: 6px 10px 16px; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0;
     }
     
     .console-wing-left, .console-wing-right {
@@ -126,17 +127,16 @@
     }
     .wing-amt-text { font-size: 11px; font-weight: 900; color: var(--gold-text); text-align: center; }
 
-    /* Big Center Octagonal Spin Button */
+    /* Center Big Spin Button */
     .center-spin-button {
-      width: 100px; height: 90px; background: #0c3d2a; border: 4px solid #c2185b;
+      width: 96px; height: 86px; background: #0c3d2a; border: 4px solid #c2185b;
       border-radius: 16px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 0 15px rgba(194, 24, 91, 0.6);
-      margin: 0 -12px; z-index: 5; display: flex; flex-direction: column; align-items: center;
+      margin: 0 -10px; z-index: 5; display: flex; flex-direction: column; align-items: center;
       justify-content: center; cursor: pointer; transition: 0.15s transform;
     }
     .center-spin-button:active { transform: scale(0.94); }
     .spin-btn-val { font-size: 20px; font-weight: 900; color: var(--gold-text); line-height: 1; }
     .spin-btn-currency { font-size: 10px; font-weight: 900; color: #fff; margin-top: 2px; }
-    .gold-down-arrow { color: #ffb300; font-size: 16px; margin-top: -2px; animation: bounceArrow 0.8s infinite alternate; }
 
     /* Clean Floating Win Banner */
     .clean-win-banner {
@@ -146,21 +146,6 @@
       z-index: 9999; display: none; animation: popWin 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Paytable & Rules Modal */
-    .rules-modal {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 200;
-      flex-direction: column; overflow-y: auto; padding: 15px;
-    }
-    .rules-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #144432; padding-bottom: 8px; }
-    .rules-close { font-size: 24px; color: #fff; cursor: pointer; }
-    .rules-nav { display: flex; gap: 8px; margin: 12px 0; }
-    .rules-nav-btn {
-      flex: 1; padding: 8px 0; text-align: center; font-size: 11px; font-weight: bold; background: #0c2e21;
-      border: 1px solid #1b543d; border-radius: 4px; color: #8ba39a; cursor: pointer;
-    }
-    .rules-nav-btn.active { background: #114d35; border-color: var(--accent-green); color: var(--accent-green); }
-
-    @keyframes bounceArrow { 0% { transform: translateY(0); } 100% { transform: translateY(3px); } }
     @keyframes winPulse { 0% { transform: scale(1); filter: drop-shadow(0 0 5px #ffd700); } 100% { transform: scale(1.15); filter: drop-shadow(0 0 15px #ffd700); } }
     @keyframes popWin { 0% { transform: translate(-50%, -20px) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, 0) scale(1); opacity: 1; } }
   </style>
@@ -173,19 +158,12 @@
     🎉 <span id="winBannerText">+0.00 ETB Won!</span>
   </div>
 
-  <!-- 1. In-Game Sub-Header -->
+  <!-- 1. Header -->
   <div class="game-sub-nav">
-    <button class="circle-icon-btn" onclick="history.back()" title="Back">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    </button>
+    <div class="slot-title">777 <span>SLOT</span></div>
     <div style="display:flex; gap:8px;">
-      <!-- Master Sound Toggle (Default: Silent 🔇) -->
       <button class="circle-icon-btn" id="soundBtn" onclick="toggleGlobalAudio()" title="Sound Toggle">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff5252" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
-      </button>
-      <!-- Paytable Modal Trigger -->
-      <button class="circle-icon-btn" onclick="openRulesModal()" title="Paytable & Rules">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
       </button>
     </div>
   </div>
@@ -235,51 +213,34 @@
   <!-- 3. Middle Status Ribbon -->
   <div class="status-ribbon-bar">
     <div class="status-item">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8z"/></svg>
+      <span>💰</span>
       <span id="userBalText">0.00</span> ETB
     </div>
     <div class="status-item">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+      <span>🏆</span>
       <span id="lastWinText">0.00</span> ETB
-    </div>
-    <div class="status-item">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-      <span id="jackpotText">0.00</span> ETB
     </div>
   </div>
 
   <!-- 4. Hexagon Action Buttons -->
   <div class="hex-actions-row">
-    <!-- Auto-Spin -->
-    <div class="hex-btn" id="autoSpinBtn" onclick="toggleAutoSpin()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-    </div>
-    <!-- 2x Bet Multiplier -->
+    <div class="hex-btn" id="autoSpinBtn" onclick="toggleAutoSpin()">AUTO</div>
     <div class="hex-btn" id="doubleBetBtn" onclick="multiplyBetBy2()">2x</div>
-    <!-- Turbo Spin -->
-    <div class="hex-btn" id="turboBtn" onclick="toggleTurbo()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    </div>
+    <div class="hex-btn" id="turboBtn" onclick="toggleTurbo()">⚡</div>
   </div>
 
-  <!-- 5. Bottom Emerald & Ruby Spin Console -->
+  <!-- 5. Bottom Spin Console -->
   <div class="spin-console-wrapper">
-    <!-- Left Wing (Prev Bet Preview & Minus) -->
     <div class="console-wing-left">
       <button class="step-square-btn" onclick="stepBetAmount(-1)">−</button>
-      <div class="wing-amt-text"><span id="prevBetVal">8.00</span><br>ETB</div>
+      <div class="wing-amt-text"><span id="prevBetVal">8</span><br>ETB</div>
     </div>
 
-    <!-- Center Big Spin Button -->
     <div class="center-spin-button" id="mainSpinBtn" onclick="spinReels()">
       <div class="spin-btn-val" id="currentBetVal">10</div>
-      <div class="spin-btn-currency">ETB</div>
-      <div class="gold-down-arrow">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffb300" stroke-width="3.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
+      <div class="spin-btn-currency">SPIN</div>
     </div>
 
-    <!-- Right Wing (Next Bet Preview & Plus) -->
     <div class="console-wing-right">
       <div class="wing-amt-text"><span id="nextBetVal">15</span><br>ETB</div>
       <button class="step-square-btn" onclick="stepBetAmount(1)">+</button>
@@ -287,82 +248,28 @@
   </div>
 </div>
 
-<!-- 6. Paytable & Rules Modal -->
-<div class="rules-modal" id="rulesModal">
-  <div class="rules-header">
-    <div style="font-weight:bold; font-size:13px; color:var(--accent-green);">777 MULTI SLOT PAYTABLE & RULES</div>
-    <span class="rules-close" onclick="closeRulesModal()">&times;</span>
-  </div>
-  
-  <div class="rules-nav">
-    <button class="rules-nav-btn active" onclick="switchModalTab('paytable', this)">PAYTABLE</button>
-    <button class="rules-nav-btn" onclick="switchModalTab('paylines', this)">5 PAYLINES</button>
-    <button class="rules-nav-btn" onclick="switchModalTab('fairness', this)">FAIRNESS</button>
-  </div>
-
-  <!-- Paytable Tab -->
-  <div id="modalTabPaytable">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:11px; color:#cbd5e1; margin-top:8px;">
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🎰 3x Lucky 777: <b>50.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">💰 3x Dollars $$: <b>25.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🔔 3x Golden Bells: <b>10.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🍒 3x Cherries: <b>6.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🍉 3x Watermelon: <b>4.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🍇 3x Grapes: <b>3.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🍊 3x Orange: <b>2.0x</b></div>
-      <div style="background:#09261b; padding:7px; border-radius:6px; border:1px solid #144432;">🍋 3x Lemon: <b>1.5x</b></div>
-    </div>
-  </div>
-
-  <!-- Paylines Tab -->
-  <div id="modalTabPaylines" style="display:none; font-size:11px; color:#cbd5e1; line-height:1.6; margin-top:8px;">
-    <p>⚡ <b>5 Fixed Paylines:</b></p>
-    <ul style="padding-left:18px; margin-top:6px;">
-      <li>Line 1: Top horizontal row</li>
-      <li>Line 2: Middle horizontal row</li>
-      <li>Line 3: Bottom horizontal row</li>
-      <li>Line 4: Diagonal top-left to bottom-right</li>
-      <li>Line 5: Diagonal bottom-left to top-right</li>
-    </ul>
-  </div>
-
-  <!-- Fairness Tab -->
-  <div id="modalTabFairness" style="display:none; font-size:11px; color:#cbd5e1; line-height:1.6; margin-top:8px;">
-    <p>🛡️ <b>Provably Fair RNG:</b> Certified server pseudo-random algorithms ensure an unbiased 28% Hit Frequency.</p>
-  </div>
-</div>
-
 <script>
-  // -------------------------------------------------------------
-  // 🚀 OFFICIAL PRODUCTION CONFIGURATION (RENDER + TELEGRAM)
-  // -------------------------------------------------------------
+  // ============================================================================
+  // 🚀 777 MULTI SLOT - INTEGRATED WITH HULU BET RENDER BACKEND (/api/bet/play)
+  // ============================================================================
   const RENDER_BASE_URL = "https://hulubet-server.onrender.com";
 
-  const tg = window.Telegram?.WebApp;
-  if (tg) {
-    tg.ready();
-    tg.expand();
-  }
-
-  let telegramUser = tg?.initDataUnsafe?.user || { id: 589218392, first_name: "Player" };
-  const TELEGRAM_ID = telegramUser.id;
+  // URL Injection: User ID & Balance from Main Lobby
+  const urlParams = new URLSearchParams(window.location.search);
+  let USER_ID = urlParams.get('userId') || "589218392";
+  let balance = parseFloat(urlParams.get('balance')) || 20.00;
 
   function triggerCleanWin(msg) {
     const banner = document.getElementById("cleanWinBanner");
     document.getElementById("winBannerText").innerText = msg;
     banner.style.display = "block";
-    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     setTimeout(() => { banner.style.display = "none"; }, 3500);
   }
 
-  // Master Audio Synthesizer Engine
-  let isMuted = true;
+  // Audio Synthesizer
+  let isMuted = false;
   let audioCtx = null;
-
-  function initAudio() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
+  function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
   function playTone(freq, type, dur) {
     if (isMuted) return;
     try {
@@ -372,101 +279,59 @@
       const gain = audioCtx.createGain();
       osc.type = type;
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + dur);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dur);
     } catch(e) {}
   }
-
   const SOUNDS = {
-    spin: () => playTone(300, 'sine', 0.05),
-    stop: () => playTone(450, 'triangle', 0.06),
+    spin: () => playTone(320, 'sine', 0.05),
+    stop: () => playTone(460, 'triangle', 0.06),
     win: () => {
-      playTone(523.25, 'triangle', 0.1);
-      setTimeout(() => playTone(659.25, 'triangle', 0.1), 90);
-      setTimeout(() => playTone(783.99, 'triangle', 0.25), 180);
-    },
-    jackpot: () => {
-      for (let i = 0; i < 6; i++) {
-        setTimeout(() => playTone(600 + (i * 100), 'sawtooth', 0.15), i * 100);
-      }
+      playTone(523, 'triangle', 0.1);
+      setTimeout(() => playTone(659, 'triangle', 0.1), 90);
+      setTimeout(() => playTone(783, 'triangle', 0.25), 180);
     },
     click: () => playTone(700, 'sine', 0.03)
   };
 
   function toggleGlobalAudio() {
     isMuted = !isMuted;
-    const btn = document.getElementById("soundBtn");
-    if (isMuted) {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff5252" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>`;
-    } else {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
-    }
+    document.getElementById("soundBtn").innerHTML = isMuted 
+      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff5252" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>`
+      : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-text)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
   }
 
-  // Symbols & Multipliers
   const SYMBOLS = ["🍋", "🍊", "🍉", "🍇", "🔔", "🍒", "💰", "🎰"];
-  const PAY_MULTIPLIERS = {
-    "🎰": 50.0, // 777 Jackpot
-    "💰": 25.0, // Dollars $$
-    "🔔": 10.0, // Bells
-    "🍒": 6.0,  // Cherries
-    "🍉": 4.0,  // Watermelon
-    "🍇": 3.0,  // Grapes
-    "🍊": 2.0,  // Orange
-    "🍋": 1.5   // Lemon
-  };
-
-  // -------------------------------------------------------------
-  // 🔐 REAL DATABASE SYNC (NO LOCAL BALANCE MOCKS)
-  // -------------------------------------------------------------
-  let realBalance = 0.00;
   let isSpinning = false;
   let autoSpin = false;
   let turboMode = false;
 
-  const betLevels = [2, 4, 6, 8, 10, 15, 20, 50, 100, 200, 500, 1000];
+  const betLevels = [2, 4, 6, 8, 10, 15, 20, 50, 100, 200, 500];
   let betIndex = 4; // 10 ETB default
   let currentBet = betLevels[betIndex];
 
-  async function syncDatabaseBalance() {
-    try {
-      const res = await fetch(`${RENDER_BASE_URL}/api/auth/sync`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-telegram-init-data": tg?.initData || ""
-        },
-        body: JSON.stringify({
-          telegram_id: TELEGRAM_ID,
-          username: telegramUser.username || null,
-          first_name: telegramUser.first_name || "Player"
-        })
-      });
-
-      const data = await res.json();
-      if (data.success && data.user) {
-        realBalance = Number(parseFloat(data.user.balance).toFixed(2));
-        updateBalanceDisplay();
-      }
-    } catch(e) {
-      console.error("DB Sync Error:", e);
-    }
-  }
-
   function updateBalanceDisplay() {
-    document.getElementById("userBalText").innerText = realBalance.toFixed(2);
+    document.getElementById("userBalText").innerText = balance.toFixed(2);
     try {
       if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: "BALANCE_UPDATE", newBalance: realBalance }, "*");
+        window.parent.postMessage({ type: "BALANCE_UPDATE", newBalance: balance }, "*");
       }
     } catch(e) {}
   }
+  updateBalanceDisplay();
 
-  syncDatabaseBalance();
+  // Handshake with Lobby
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: "GAME_READY" }, "*");
+  }
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'INIT_BALANCE' || e.data?.type === 'UPDATE_BALANCE') {
+      if (e.data.balance !== undefined) { balance = parseFloat(e.data.balance); updateBalanceDisplay(); }
+      if (e.data.userId) USER_ID = String(e.data.userId);
+    }
+  });
 
   function updateBetConsoleUI() {
     currentBet = betLevels[betIndex];
@@ -476,94 +341,48 @@
   }
   updateBetConsoleUI();
 
-  // 28% Hit Frequency Math Generator
-  function generateSlotOutcome() {
-    const roll = Math.random() * 100;
-    
-    if (roll > 28.0) {
-      // 72% Dead Spin
-      return { win: false, mult: 0, symbol: null, line: null, colMult: 1 };
-    } else {
-      // 28% Win Spin
-      const winRoll = Math.random() * 100;
-      let symbol = "🍋";
-      if (winRoll <= 45.0) symbol = ["🍋", "🍊", "🍇"][Math.floor(Math.random() * 3)];
-      else if (winRoll <= 80.0) symbol = ["🍉", "🍒", "🔔"][Math.floor(Math.random() * 3)];
-      else if (winRoll <= 96.0) symbol = "💰";
-      else symbol = "🎰"; // 777 Jackpot
-
-      const multColOptions = [1, 3, 5];
-      const colMult = multColOptions[Math.floor(Math.random() * multColOptions.length)];
-      return { win: true, mult: PAY_MULTIPLIERS[symbol] * colMult, symbol: symbol, line: 2, colMult: colMult };
-    }
-  }
-
   // -------------------------------------------------------------
-  // 🎰 SPIN ENGINE WITH REAL ATOMIC TRANSACTIONS
+  // 🎰 SPIN ENGINE (Calls Render Backend /api/bet/play with Slot777)
   // -------------------------------------------------------------
   async function spinReels() {
     if (isSpinning) return;
-
-    if (currentBet > 1000.00) {
-      triggerCleanWin("Max Bet limit is 1,000.00 ETB!");
-      return;
-    }
-
-    if (currentBet > realBalance) {
-      triggerCleanWin("Insufficient Balance");
+    if (currentBet > balance) {
+      if (window.parent && window.parent !== window) window.parent.postMessage({ type: "OPEN_DEPOSIT" }, "*");
       autoSpin = false;
       document.getElementById("autoSpinBtn").classList.remove("active");
       return;
     }
 
     isSpinning = true;
+    balance -= currentBet;
+    updateBalanceDisplay();
     SOUNDS.click();
 
-    // Reset Highlights
     document.getElementById("paylineBar").style.display = "none";
     document.querySelectorAll(".symbol-cell").forEach(el => el.classList.remove("winning"));
     document.querySelectorAll(".mult-box").forEach(el => el.className = "mult-box");
 
-    // Deduct on server
-    let betId = null;
+    let serverData = null;
     try {
-      const res = await fetch(`${RENDER_BASE_URL}/api/bet/place`, {
+      const res = await fetch(`${RENDER_BASE_URL}/api/bet/play`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          telegram_id: TELEGRAM_ID,
-          game: "SLOT",
-          bet_amount: currentBet,
-          round_data: { bet_index: betIndex }
+          userId: USER_ID,
+          gameName: "Slot777",
+          betAmount: currentBet,
+          clientData: {}
         })
       });
-
-      const data = await res.json();
-      if (data.success) {
-        realBalance = Number(data.remaining_balance);
-        updateBalanceDisplay();
-        betId = data.bet_id;
-      } else {
-        triggerCleanWin(data.error || "Insufficient Balance");
-        isSpinning = false;
-        return;
-      }
-    } catch (err) {
-      triggerCleanWin("Connection error to server");
-      isSpinning = false;
-      return;
-    }
-
-    const outcome = generateSlotOutcome();
-    const spinDuration = turboMode ? 350 : 850;
+      serverData = await res.json();
+    } catch(e) {}
 
     const spinInterval = setInterval(() => { SOUNDS.spin(); }, 120);
 
     const anim = setInterval(() => {
       for (let r = 0; r < 3; r++) {
         for (let c = 0; c < 3; c++) {
-          const randSymbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-          document.getElementById(`c${r}${c}`).innerText = randSymbol;
+          document.getElementById(`c${r}${c}`).innerText = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
         }
       }
     }, 60);
@@ -571,112 +390,60 @@
     setTimeout(() => {
       clearInterval(anim);
       clearInterval(spinInterval);
-      finalizeSpin(outcome, betId);
-    }, spinDuration);
+      finalizeSpin(serverData);
+    }, turboMode ? 350 : 800);
   }
 
-  async function finalizeSpin(outcome, betId) {
+  function finalizeSpin(data) {
     isSpinning = false;
     SOUNDS.stop();
 
-    let finalGrid = [];
-    if (outcome.win) {
-      finalGrid = [
-        [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-        [outcome.symbol, outcome.symbol, outcome.symbol],
-        [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()]
-      ];
-    } else {
-      finalGrid = [
-        ["🍋", "🍇", "💰"],
-        ["🍊", "🎰", "🍒"],
-        ["🍉", "🔔", "🍇"]
-      ];
+    const isWin = data ? data.isWin : false;
+    const payout = data ? data.payout : 0;
+    const mult = data ? data.multiplier : 0;
+    const reels = data?.visualOutcome?.reels || ["🍋", "🍊", "🍒"];
+    const colMult = data?.visualOutcome?.colMult || 1;
+
+    // Set middle winning line directly from Server visual outcome
+    document.getElementById("c10").innerText = reels[0];
+    document.getElementById("c11").innerText = reels[1];
+    document.getElementById("c12").innerText = reels[2];
+
+    // Top & bottom random near-miss fill
+    document.getElementById("c00").innerText = "🍇";
+    document.getElementById("c01").innerText = "💰";
+    document.getElementById("c02").innerText = "🍋";
+    document.getElementById("c20").innerText = "🍉";
+    document.getElementById("c21").innerText = "🔔";
+    document.getElementById("c22").innerText = "🍊";
+
+    if (data && data.newBalance !== undefined) {
+      balance = data.newBalance;
+    } else if (isWin) {
+      balance += payout;
     }
+    updateBalanceDisplay();
 
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 3; c++) {
-        document.getElementById(`c${r}${c}`).innerText = finalGrid[r][c];
-      }
-    }
-
-    if (outcome.win) {
-      let winAmt = Number((currentBet * outcome.mult).toFixed(2));
-      
-      // Golden Rule #5: Max Payout Cap (20,000 ETB)
-      if (winAmt > 20000.00) winAmt = 20000.00;
-
-      // Settle Win on server
-      try {
-        const res = await fetch(`${RENDER_BASE_URL}/api/bet/settle`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bet_id: betId,
-            multiplier: outcome.mult,
-            won: true
-          })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          realBalance = Number(data.current_balance);
-          updateBalanceDisplay();
-        }
-      } catch (e) {}
-
-      document.getElementById("lastWinText").innerText = winAmt.toFixed(2);
-      document.getElementById("jackpotText").innerText = winAmt.toFixed(2);
-
-      // Highlight winning middle row
+    if (isWin && payout > 0) {
       document.getElementById("c10").classList.add("winning");
       document.getElementById("c11").classList.add("winning");
       document.getElementById("c12").classList.add("winning");
+      document.getElementById("paylineBar").style.top = "108px";
+      document.getElementById("paylineBar").style.display = "block";
+      document.getElementById("lastWinText").innerText = payout.toFixed(2);
 
-      // Payline Bar
-      const bar = document.getElementById("paylineBar");
-      bar.style.top = "110px";
-      bar.style.display = "block";
+      // Highlight multiplier box
+      if (colMult === 5) document.getElementById("mult5x").className = "mult-box active-5x";
+      else if (colMult === 3) document.getElementById("mult3x").className = "mult-box active-3x";
+      else document.getElementById("mult1x").className = "mult-box active-1x";
 
-      // Highlight Multiplier Column
-      if (outcome.colMult === 5) {
-        document.getElementById("mult5x").className = "mult-box active-5x";
-      } else if (outcome.colMult === 3) {
-        document.getElementById("mult3x").className = "mult-box active-3x";
-      } else {
-        document.getElementById("mult1x").className = "mult-box active-1x";
-      }
-
-      if (outcome.symbol === "🎰" || outcome.symbol === "💰") {
-        SOUNDS.jackpot();
-        triggerCleanWin(`🎰 MEGA WIN! 3x [${outcome.symbol}] -> +${winAmt.toFixed(2)} ETB (${outcome.mult}x)`);
-      } else {
-        SOUNDS.win();
-        triggerCleanWin(`🎉 WIN! +${winAmt.toFixed(2)} ETB (${outcome.mult}x)`);
-      }
+      SOUNDS.win();
+      triggerCleanWin(`🎉 WIN! +${payout.toFixed(2)} ETB (${mult}x)`);
     } else {
       document.getElementById("lastWinText").innerText = "0.00";
-      // Settle Lost on server
-      try {
-        await fetch(`${RENDER_BASE_URL}/api/bet/settle`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bet_id: betId,
-            multiplier: 0,
-            won: false
-          })
-        });
-      } catch (e) {}
     }
 
-    if (autoSpin) {
-      setTimeout(() => { if (autoSpin) spinReels(); }, 1000);
-    }
-  }
-
-  function getRandomSymbol() {
-    return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    if (autoSpin) setTimeout(() => { if (autoSpin) spinReels(); }, 1200);
   }
 
   function stepBetAmount(dir) {
@@ -708,17 +475,6 @@
     SOUNDS.click();
     turboMode = !turboMode;
     document.getElementById("turboBtn").classList.toggle("active", turboMode);
-  }
-
-  function openRulesModal() { document.getElementById("rulesModal").style.display = "flex"; }
-  function closeRulesModal() { document.getElementById("rulesModal").style.display = "none"; }
-
-  function switchModalTab(tab, el) {
-    document.querySelectorAll(".rules-nav-btn").forEach(b => b.classList.remove("active"));
-    el.classList.add("active");
-    document.getElementById("modalTabPaytable").style.display = tab === 'paytable' ? 'block' : 'none';
-    document.getElementById("modalTabPaylines").style.display = tab === 'paylines' ? 'block' : 'none';
-    document.getElementById("modalTabFairness").style.display = tab === 'fairness' ? 'block' : 'none';
   }
 </script>
 </body>
